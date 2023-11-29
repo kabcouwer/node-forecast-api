@@ -1,11 +1,16 @@
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3000;
+const express = require('express'); // Import express
 
-app.get('/', (req, res) => {
-    res.json({ message: 'Hello from server!' });
+const PORT = process.env.PORT || 3001; // Set port to 3001 or the environment's port
+
+const server = express(); // Create express server
+server.use(express.json()); // Parse incoming requests with JSON payloads
+server.use(express.urlencoded({ extended: true })); // Parse incoming requests with urlencoded payloads
+
+// Import routes
+server.get('/api/hello', (req, res) => {
+    res.status(200).send('Hello, world!');
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });

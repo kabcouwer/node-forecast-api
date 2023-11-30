@@ -1,15 +1,18 @@
-const express = require('express'); // Import express
+const express = require("express");
+const PORT = process.env.PORT || 3001;
+const server = express();
 
-const PORT = process.env.PORT || 3001; // Set port to 3001 or the environment's port
+// Middleware
+server.use(express.json()); 
+server.use(express.urlencoded({ extended: true }));
 
-const server = express(); // Create express server
-server.use(express.json()); // Parse incoming requests with JSON payloads
-server.use(express.urlencoded({ extended: true })); // Parse incoming requests with urlencoded payloads
-
-// Import routes
-server.get('/api/hello', (req, res) => {
-    res.status(200).send('Hello, world!');
+// Import test route
+server.get("/api/hello", (req, res) => {
+    res.status(200).send("Hello, world!");
 });
+
+// Import API routes
+server.use("/api", require("../src/routes/weatherRoutes"));
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
